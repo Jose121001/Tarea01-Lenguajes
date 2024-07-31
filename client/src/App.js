@@ -15,11 +15,18 @@ function App() {
       </header>
       <div className='ContentMenu'>
         <div className='ContentMenu_play'>
-          {/* Contenido del juego aquí */}
+          <div className="Bar_questions">
+            {/* Zona de preguntas. Coneccion a DB */}
+            ¿Cuál es la capital de Francia?
+          </div>
+          <div className="ResponseButton">París</div>
+          <div className="ResponseButton">Londres</div>
+          <div className="ResponseButton">Roma</div>
+          <div className="ResponseButton">Madrid</div>
         </div>
       </div>
     </div>
-  );//
+  );
 }
 
 export default App;

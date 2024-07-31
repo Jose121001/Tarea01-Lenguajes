@@ -1,83 +1,86 @@
 /* Contenedor del encabezado */
-.Menu_header {
-    display: flex; /* Utiliza Flexbox para alinear los elementos en una fila */
-    align-items: center; /* Centra verticalmente los elementos */
-    padding: 10px; /* Espaciado interno del encabezado */
-    background-color: white; /* Fondo blanco para el encabezado */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil para el encabezado */
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1); /* Borde inferior suave */
-    justify-content: space-between; /* Espacia los elementos para que se distribuyan uniformemente */
+.Menu_app {
+    display: flex;  /* Utiliza Flexbox para alinear los elementos en una fila */
+    flex-direction: column;
+    height: 100vh;
   }
   
-  /* Contenedor de los botones */
+  .Menu_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #282c34;
+  }
+    /* Contenedor de los botones */
   .Menu_sidebar {
-    display: flex; /* Utiliza Flexbox para alinear los botones en una fila */
-    align-items: center; /* Centra verticalmente los botones */
+    display: flex;
+    gap: 20px;
   }
   
-  /* Estilos para los botones */
   .Button_play,
   .Button_historial,
   .Button_rules {
-    margin-left: 20px; /* Espacio a la izquierda de cada botón */
-    cursor: pointer; /* Cambia el cursor a una mano cuando se pasa sobre los botones */
-    border: 1px solid rgba(0, 0, 0, 0.3); /* Borde suave negro */
-    background-color: white; /* Fondo blanco para los botones */
-    padding: 10px 20px; /* Espacio interno del botón */
-    border-radius: 5px; /* Redondea las esquinas del botón */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para el botón */
-    transition: all 0.3s ease; /* Transición suave para los efectos */
+    color: white;
+    cursor: pointer;
   }
-  
-  /* Efecto 3D y preselección al pasar el mouse */
-  .Button_play:hover,
-  .Button_historial:hover,
-  .Button_rules:hover {
-    background-color: rgba(0, 0, 0, 0.05); /* Fondo ligeramente oscuro al pasar el mouse */
-    border-color: rgba(0, 0, 0, 0.5); /* Borde más oscuro al pasar el mouse */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Sombra más prominente al pasar el mouse */
-    transform: translateY(-2px); /* Efecto de elevación */
-  }
-  
-  /* Contenedor del título */
+   /* Contenedor del título */
   .MenuWallpaper {
-    flex: 1; /* Ocupa el espacio restante en el contenedor Flexbox */
-    display: flex; /* Utiliza Flexbox para centrar el título */
-    justify-content: center; /* Centra horizontalmente el contenido */
-    text-align: center; /* Centra el texto horizontalmente */
+    flex-grow: 1;
+    text-align: center;
   }
-  
   /* Estilos para el título */
   .Title_name {
-    font-size: 24px; /* Tamaño del texto del título */
-    font-weight: bold; /* Texto en negrita para el título */
+    font-size: 2.5em;
+    color: #61dafb;
+    text-shadow: 1px 1px 2px #000;
   }
-  
-  /* Contenedor del área de juego */
+    /* Estilos para el área de juego */
   .ContentMenu {
-    display: flex; /* Utiliza Flexbox para el contenedor de juego */
-    justify-content: center; /* Centra horizontalmente el área de juego */
-    align-items: center; /* Centra verticalmente el área de juego */
-    min-height: 80vh; /* Altura mínima del área de juego (80% de la altura de la ventana) */
-    background-color: #5e4d4d; /* Fondo ligeramente gris para el área de juego */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    background-color: #f0f0f0;
   }
-  
-  /* Estilos para el área de juego */
-  .ContentMenu_play {
-    width: 70%; /* Ancho del área de juego (70% del contenedor principal) */
-    max-width: 700px; /* Ancho máximo del área de juego */
-    height: 70%; /* Altura del área de juego */
-    background-color: black; /* Fondo negro para mostrar la zona del div */
-    border-radius: 8px; /* Bordes redondeados del área de juego */
-  }
-  
+    
   /* Estilos para el área de juegos */
   .ContentMenu_play {
-    width: 60%; /* Ancho del área de juego (60% del contenedor principal) */
-    max-width: 600px; /* Ancho máximo del área de juego */
-    height: 70%; /* Altura del área de juego */
-    background-color: black; /* Fondo negro para mostrar la zona del div */
-    border-radius: 8px; /* Bordes redondeados del área de juego */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 60%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-  
+  /* Zona donde iran las preguntas */
+  .Bar_questions {
+    width: 100%;
+    padding: 20px;
+    background-color: #ddd;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  /* Boptones de las respuestas */
+  .ResponseButton {
+    width: 45%;
+    margin: 10px 2.5%;
+    padding: 15px;
+    background-color: #fff;
+    border: 2px solid #007BFF;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  /* Animacion al precionar los botones*/
+  .ResponseButton:hover {
+    background-color: #007BFF;
+    color: white;
+    transform: scale(1.05);
+  }
   
