@@ -1,6 +1,5 @@
-/* Contenedor del encabezado */
 .Menu_app {
-    display: flex;  /* Utiliza Flexbox para alinear los elementos en una fila */
+    display: flex;
     flex-direction: column;
     height: 100vh;
   }
@@ -11,8 +10,9 @@
     align-items: center;
     padding: 10px 20px;
     background-color: #282c34;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
-    /* Contenedor de los botones */
+  
   .Menu_sidebar {
     display: flex;
     gap: 20px;
@@ -24,27 +24,37 @@
     color: white;
     cursor: pointer;
   }
-   /* Contenedor del título */
+  
   .MenuWallpaper {
     flex-grow: 1;
     text-align: center;
   }
-  /* Estilos para el título */
+  
   .Title_name {
     font-size: 2.5em;
     color: #61dafb;
     text-shadow: 1px 1px 2px #000;
   }
-    /* Estilos para el área de juego */
+  
+  .Name_bar {
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
+  }
+  
   .ContentMenu {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     flex-grow: 1;
     background-color: #f0f0f0;
   }
-    
-  /* Estilos para el área de juegos */
+  
   .ContentMenu_play {
     display: flex;
     flex-direction: column;
@@ -55,7 +65,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
-  /* Zona donde iran las preguntas */
+  
   .Bar_questions {
     width: 100%;
     padding: 20px;
@@ -65,7 +75,7 @@
     border-radius: 8px;
     text-align: center;
   }
-  /* Boptones de las respuestas */
+  
   .ResponseButton {
     width: 45%;
     margin: 10px 2.5%;
@@ -77,10 +87,28 @@
     cursor: pointer;
     transition: all 0.3s ease;
   }
-  /* Animacion al precionar los botones*/
+  
   .ResponseButton:hover {
     background-color: #007BFF;
     color: white;
     transform: scale(1.05);
+  }
+  
+  .Name_input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .Name_input input {
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1em;
+  }
+  
+  .Name_input button {
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
   }
   
