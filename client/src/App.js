@@ -1,14 +1,48 @@
 import React, { useState } from 'react';
+import Axios from "axios";
 import './App.css';
+
 
 function App() {
   const [playerName, setPlayerName] = useState('');
   const [showGame, setShowGame] = useState(false);
 
-  const handleStartGame = () => {
-    setShowGame(true);
+  //--------------Funciones de BD------------------------------------------------------------------------------------------------------------
+  /**
+   * en server utilizamos node install cors 
+   * para evitar bloqueos de pagina.
+   * Se importa en index.js pero del server
+   * 
+   */
+  const [nombre, setNombre] = useState("");
+
+
+  //Se usa para registrar en este caso el nombre
+  const add = () => {
+    Axios.post('http://localhost:3000/create', {
+      nombre: nombre,
+    }).then(() => {
+      alert('Usuario registrado app.js');
+    });
+  };
+//--------------Funciones de Juego-------------------------------------------------------------------------------------------------------------
+   //Se incia el juego
+   const handleStartGame = () => {
+    console.log('Juego iniciado');
+    setShowGame(true); // Cambia el estado para mostrar el juego
   };
 
+  //Funcion que fuciona el handler y el add
+  const handleButtonClick = () => {
+    add();
+    handleStartGame();
+  };
+  //Combina el setPlayer y agrega el setNomre para el add
+  const handleChange = (e) => {
+    setPlayerName(e.target.value);
+    setNombre(e.target.value);
+  };
+//-------------Fin de Funciones de Juego------------------------------------------------------------------------------------------------------------------------------------------
   return (
     <div className="Menu_app">
       <header className="Menu_header">
@@ -28,9 +62,9 @@ function App() {
               type="text" 
               placeholder="Ingresa tu nombre" 
               value={playerName} 
-              onChange={(e) => setPlayerName(e.target.value)} 
+              onChange={handleChange} 
             />
-            <button onClick={handleStartGame}>Empezar</button>
+            <button onClick={handleButtonClick}>Jugar</button>
           </div>
         ) : (
           <>
