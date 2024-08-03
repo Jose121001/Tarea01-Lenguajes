@@ -115,3 +115,13 @@
     cursor: pointer;
   }
   
+
+  .ResponseButton.correct {
+    background-color: green;
+  }
+  
+  .ResponseButton.incorrect {
+    background-color: red;
+  }
+  
+  
