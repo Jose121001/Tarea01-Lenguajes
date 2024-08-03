@@ -78,7 +78,7 @@
   
   
 .ResponseButton {
-  with: 200%;  /* Ajusta el ancho para hacerlo más rectangular horizontalmente */
+  width: 90%;  /* Ajusta el ancho para hacerlo más rectangular horizontalmente */
   margin: 10px 0; /* Ajusta el margen para mantener la separación */
   padding: 15px;
   background-color: #fff;
