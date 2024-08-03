@@ -76,23 +76,26 @@
     text-align: center;
   }
   
-  .ResponseButton {
-    width: 45%;
-    margin: 10px 2.5%;
-    padding: 15px;
-    background-color: #fff;
-    border: 2px solid #007BFF;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
   
-  .ResponseButton:hover {
-    background-color: #007BFF;
-    color: white;
-    transform: scale(1.05);
-  }
+.ResponseButton {
+  with: 200%;  /* Ajusta el ancho para hacerlo más rectangular horizontalmente */
+  margin: 10px 0; /* Ajusta el margen para mantener la separación */
+  padding: 15px;
+  background-color: #fff;
+  border: 2px solid #007BFF;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;/* Ajusta el centro en el centro y permite aumentar su largo en -x a x */
+}
+
+.ResponseButton:hover {
+  background-color: #007BFF;
+  color: white;
+  transform: scale(1.05);
+}
+  
   
   .Name_input {
     display: flex;

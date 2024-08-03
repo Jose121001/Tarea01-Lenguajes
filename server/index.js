@@ -31,6 +31,44 @@ app.post('/create', (req, res) => {
     }
   });
 });
+//-----------------Fin de instrucciones de Insersion de Dta------------------------------------
+
+
+/**
+ * Solicitud de datos a la tabla: table_preguntas.
+ * Esto se dirige a la zona de preguntas y respuestas.
+ * /random_question: no es el nombre de la tabla. Es simplemente el nombre del endpoint
+ *  que defines en tu aplicación Express 
+ * para manejar la solicitud de una pregunta aleatoria.
+ */
+
+app.get('/random_question', (req, res) => {
+  //Selecciona las preguntas al azar que esten en false.
+  db.query('SELECT * FROM table_preguntas WHERE usada = FALSE ORDER BY RAND() LIMIT 1', (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Error al obtener pregunta');
+    } else {
+      if (result.length > 0) {
+        //Ingresamos la pregunta obtenida a una lista de un solo objeto
+        const pregunta = result[0];
+        // Marca la pregunta como usada
+        db.query('UPDATE table_preguntas SET usada = TRUE WHERE id_pregunta = ?', [pregunta.id_pregunta], (updateErr) => {
+          if (updateErr) {
+            console.log(updateErr);
+          }
+        });
+        res.send(pregunta);
+      } else {
+        res.send({ message: 'No hay más preguntas disponibles' });
+      }
+    }
+  });
+});
+
+
+
+
 
 
 
