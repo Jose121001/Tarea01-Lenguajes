@@ -73,6 +73,36 @@ app.get('/random_question', (req, res) => {
 
 
 
+
+
+
+
+
+
+//------------Reinicios de la BD cada vez que se ingresa al juego-------------------------------------------------------------------------------
+
+//Reinicia la BD preguntas a false.
+// Endpoint para resetear las preguntas
+app.put('/reset_preguntas', (req, res) => {
+  db.query('UPDATE table_preguntas SET usada = FALSE', (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Error al reiniciar preguntas');
+    } else {
+      res.send('Todas las preguntas han sido reiniciadas');
+    }
+  });
+});
+
+// Llama al endpoint /reset_preguntas al iniciar el servidor
+axios.put('http://localhost:3000/reset_preguntas')
+  .then(response => {
+    console.log(response.data);
+  })
+  .catch(error => {
+    console.error('Error al reiniciar preguntas:', error);
+  });
+
 app.listen(3000,()=>{
   console.log('Corriendo en el puerto 3000')
 })
