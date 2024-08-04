@@ -10,7 +10,8 @@ function App() {
   const [correctCount, setCorrectCount] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [gameFinished, setGameFinished] = useState(false); // Nuevo estado para manejar la pantalla de finalización
-  
+  const [errorMessage, setErrorMessage] = useState('');//Muestra error si lo hay
+
   // Función para registrar el nombre del usuario y obtener su ID
   const add = () => {
     Axios.post("http://localhost:3000/create", { nombre: playerName })
@@ -18,6 +19,13 @@ function App() {
         alert("Usuario registrado app.js");
       });
   }; 
+
+  //Valida la entrada del nombre
+  const isValidName = (name) => {
+    const regex = /^[a-zA-Z\s]+$/;
+    return regex.test(name) && name.trim().length > 0;
+  };
+  
 
   // Función para obtener una pregunta aleatoria
   const fetchQuestion = () => {
@@ -68,7 +76,14 @@ function App() {
 
   // Función para manejar cambios en el input de nombre
   const handleChange = (e) => {
-    setPlayerName(e.target.value);
+    const { value } = e.target;
+    if (isValidName(value)) {
+      setPlayerName(value);
+      setErrorMessage(''); // Limpia el mensaje de error si el nombre es válido
+    } else {
+      setPlayerName('');
+      setErrorMessage('El nombre no debe contener números ni estar vacío.');
+    }
   };
 
   // Función para manejar clics en las respuestas
@@ -130,16 +145,16 @@ function App() {
   };
   
   // Renderiza el mensaje de finalización del juego basado en el número de respuestas correctas
-  const renderEndGameMessage = () => {
-    if (correctCount < 5) {
-      return <p className='Looser_screen'>Perdiste. Respuestas correctas: {correctCount}/10</p>;
-    } else if (correctCount === 5) {
-      return <p className='Tie_screen'>Empate. Respuestas correctas: {correctCount}/10</p>;
-    } else {
-      return <p className='Winnerr_screen'>Ganaste! Respuestas correctas: {correctCount}/10</p>;
-    }
-  };
-
+  // Renderiza el mensaje de finalización del juego basado en el número de respuestas correctas
+const renderEndGameMessage = () => {
+  if (correctCount < 5) {
+    return <p className="Looser_screen">Perdiste. Respuestas correctas: {correctCount}/10</p>;
+  } else if (correctCount === 5) {
+    return <p className="Tie_screen">Empate. Respuestas correctas: {correctCount}/10</p>;
+  } else {
+    return <p className="Winner_screen">¡Ganaste! Respuestas correctas: {correctCount}/10</p>;
+  }
+};
   return (
     <div className="Menu_app">
       <header className="Menu_header">
@@ -157,6 +172,7 @@ function App() {
       <div className="ContentMenu">
         {!showGame ? (
           <div className="Name_input">
+
             <input
               type="text"
               placeholder="Ingresa tu nombre"
