@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Axios from "axios";
 import './App.css';
-import axios from 'axios';
 
 function App() {
   const [playerName, setPlayerName] = useState('');
@@ -10,31 +9,17 @@ function App() {
   const [answerFeedback, setAnswerFeedback] = useState(Array(4).fill(''));
   const [correctCount, setCorrectCount] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [idUsuario, setIdUsuario] = useState(null);  // guarda id_usuario
-  
+  const [gameFinished, setGameFinished] = useState(false); // Nuevo estado para manejar la pantalla de finalización
 
-
-
-  
-  //--------------Funciones de BD------------------------------------------------------------------------------------------------------------
-  /**
-   * en server utilizamos node install cors
-   * para evitar bloqueos de pagina.
-   * Se importa en index.js pero del server
-   *
-   */
-
-  //Se usa para registrar en este caso el nombre
   // Función para registrar el nombre del usuario y obtener su ID
   const add = () => {
     Axios.post("http://localhost:3000/create", { nombre: playerName })
       .then((response) => {
         alert("Usuario registrado app.js");
-        setIdUsuario(response.data.id_usuario);  // Guarda el ID del usuario registrado
       });
   };
 
-//Se encarga de obtener las preguntas y respuestas. La parte de mezclar la respuesta al azar fue sacada de chatgpt.
+  // Función para obtener una pregunta aleatoria
   const fetchQuestion = () => {
     Axios.get('http://localhost:3000/random_question')
       .then((response) => {
@@ -42,23 +27,12 @@ function App() {
           alert(response.data.message);
         } else {
           const fetchedQuestion = response.data;
-          /**
-           * Extrae la pregunta obtenida y crea un arreglo de respuestas con sus respectivos valores de corrección (true o false). 
-           * Luego, mezcla las respuestas utilizando shuffleArray.
-           * 
-           */
-         
           const answers = [
             { text: fetchedQuestion.respuesta_incorrecta_uno, correct: false },
             { text: fetchedQuestion.respuesta_incorrecta_dos, correct: false },
             { text: fetchedQuestion.respuesta_incorrecta_tres, correct: false },
             { text: fetchedQuestion.respuesta_correcta, correct: true },
           ];
-            /**
-           * Extrae la pregunta obtenida y crea un arreglo de respuestas con sus respectivos valores de corrección (true o false). 
-           *Luego, mezcla las respuestas utilizando shuffleArray.
-           * 
-           */
           shuffleArray(answers);
           setCurrentQuestion({ ...fetchedQuestion, answers });
           setAnswerFeedback(Array(4).fill(''));
@@ -69,13 +43,7 @@ function App() {
       });
   };
 
-
-/*
-/*
- * Esta función mezcla el arreglo de respuestas de forma aleatoria usando 
- * el algoritmo de Fisher-Yates. Fue sacada de chatgpt
- *  
- */
+  // Función para mezclar las respuestas
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -83,72 +51,93 @@ function App() {
     }
   };
 
-
-  //--------------Funciones de Juego-------------------------------------------------------------------------------------------------------------
-  //Se incia el juego
+  // Función para iniciar el juego
   const handleStartGame = () => {
     console.log("Juego iniciado");
     fetchQuestion();
     setShowGame(true);
+    setGameFinished(false);
+     resetQuestionCount(); // Reinicia el contador al iniciar el juego
   };
 
-  //Inicia el juego si se selecciona jugar
+  // Función que combina iniciar juego y registrar nombre
   const handleButtonClick = () => {
     add();
     handleStartGame();
   };
 
-  //Mantiene el nombre del jugador en el juego
+  // Función para manejar cambios en el input de nombre
   const handleChange = (e) => {
     setPlayerName(e.target.value);
   };
 
- //Función para manejar clics en respuestas:
- const handleAnswerClick = (index, correct) => {
-  const feedback = answerFeedback.slice();
-  feedback[index] = correct ? 'correct' : 'incorrect';
-  setAnswerFeedback(feedback);
+  // Función para manejar clics en las respuestas
+  const handleAnswerClick = (index, correct) => {
+    const feedback = answerFeedback.slice();
+    feedback[index] = correct ? 'correct' : 'incorrect';
+    setAnswerFeedback(feedback);
 
-  if (correct) {
-    setCorrectCount(correctCount + 1);
-  }
-
-  setTimeout(() => {
-    if (questionNumber < 10) {
-      setQuestionNumber(questionNumber + 1);
-      fetchQuestion();
-    } else {
-      alert(`Juego terminado. Respuestas correctas: ${correctCount}`);
-      saveToHistorial();
-      resetGame();
+    if (correct) {
+      setCorrectCount(correctCount + 1);
     }
-  }, 250);
-};
 
+    setTimeout(() => {
+      if (questionNumber < 9) { // Ajusta para permitir 10 preguntas
+        setQuestionNumber(questionNumber + 1);
+        fetchQuestion();
+      } else {
+        setGameFinished(true);
+        saveToHistorial();
+      }
+    }, 250);
+  };
 
-
-
-
-const saveToHistorial = () => {
-  Axios.post('http://localhost:3000/add_to_historial', {
-    nombre: playerName,  // Enviar el nombre del jugador
-    correctas: correctCount,
-  })
-    .then(() => {
-      console.log('Historial actualizado');
+  // Función para guardar el historial
+  const saveToHistorial = () => {
+    Axios.post('http://localhost:3000/add_to_historial', {
+      nombre: playerName,
+      correctas: correctCount,
     })
-    .catch(error => {
-      console.error('Error al actualizar el historial:', error);
-    });
-};
-
-
+      .then(() => {
+        console.log('Historial actualizado');
+      })
+      .catch(error => {
+        console.error('Error al actualizar el historial:', error);
+      });
+  };
 
   // Función para reiniciar el juego
   const resetGame = () => {
     setShowGame(false);
     setCorrectCount(0);
     setQuestionNumber(0);
+    setCurrentQuestion(null);
+    setGameFinished(false);
+    resetQuestionCount(); // Reinicia el contador al resetear el juego
+  };
+
+
+
+  //Permite que se reinicie el contador de preguntas.
+  const resetQuestionCount = () => {
+    Axios.put('http://localhost:3000/reset_question_count')
+      .then(() => {
+        console.log('Contador de preguntas reiniciado');
+      })
+      .catch(error => {
+        console.error('Error al reiniciar el contador de preguntas:', error);
+      });
+  };
+  
+  // Renderiza el mensaje de finalización del juego basado en el número de respuestas correctas
+  const renderEndGameMessage = () => {
+    if (correctCount < 5) {
+      return <p className='Looser_screen'>Perdiste. Respuestas correctas: {correctCount}/10</p>;
+    } else if (correctCount === 5) {
+      return <p className='Tie_screen'>Empate. Respuestas correctas: {correctCount}/10</p>;
+    } else {
+      return <p className='Winnerr_screen'>Ganaste! Respuestas correctas: {correctCount}/10</p>;
+    }
   };
 
   return (
@@ -176,6 +165,15 @@ const saveToHistorial = () => {
             />
             <button onClick={handleButtonClick}>Jugar</button>
           </div>
+        ) : gameFinished ? (
+          <div className="EndGameScreen">
+  <div className="EndGameMessage">
+    {renderEndGameMessage()}
+  </div>
+  <div className="EndGameButtonContainer">
+    <button className="Reset_game" onClick={resetGame}>Jugar de nuevo</button>
+  </div>
+</div>
         ) : (
           <>
             <div className="Name_bar">Jugador: {playerName}</div>

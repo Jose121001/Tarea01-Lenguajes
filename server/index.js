@@ -48,6 +48,12 @@ app.get('/random_question', (req, res) => {
     }
   });
 });
+//Crea una nueva ruta para reiniciar el contador questionCount:
+app.put('/reset_question_count', (req, res) => {
+  questionCount = 0;
+  res.send('El contador de preguntas ha sido reiniciado');
+});
+
 
 
 app.post('/add_to_historial', (req, res) => {
