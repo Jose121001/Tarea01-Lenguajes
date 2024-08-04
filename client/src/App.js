@@ -70,9 +70,14 @@ function App() {
 
   // Función que combina iniciar juego y registrar nombre
   const handleButtonClick = () => {
-    add();
-    handleStartGame();
+    if (isValidName(playerName)) {
+      add();
+      handleStartGame();
+    } else {
+      setErrorMessage('El nombre no debe contener números ni estar vacío.');
+    }
   };
+  
 
   // Función para manejar cambios en el input de nombre
   const handleChange = (e) => {
@@ -180,6 +185,7 @@ const renderEndGameMessage = () => {
               onChange={handleChange}
             />
             <button onClick={handleButtonClick}>Jugar</button>
+            {errorMessage && <div className="Error_message">{errorMessage}</div>}
           </div>
         ) : gameFinished ? (
           <div className="EndGameScreen">
