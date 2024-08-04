@@ -10,14 +10,14 @@ function App() {
   const [correctCount, setCorrectCount] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [gameFinished, setGameFinished] = useState(false); // Nuevo estado para manejar la pantalla de finalización
-
+  
   // Función para registrar el nombre del usuario y obtener su ID
   const add = () => {
     Axios.post("http://localhost:3000/create", { nombre: playerName })
       .then((response) => {
         alert("Usuario registrado app.js");
       });
-  };
+  }; 
 
   // Función para obtener una pregunta aleatoria
   const fetchQuestion = () => {
