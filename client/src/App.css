@@ -38,6 +38,8 @@
   font-size: 2.5em;
   color: #61dafb;
   text-shadow: 1px 1px 2px #000;
+  margin-right:25%;
+ 
 }
 
 .Name_bar {
@@ -49,6 +51,29 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 1.2em;
 }
+
+
+.Button_play, .Button_historial, .Button_rules {
+  padding: 10px 20px;
+  margin: 10px;
+  background-color:#42adcd;
+  color: white;
+  font-size: 1.2em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.Button_play:active, .Button_historial:active, .Button_rules:active {
+  transform: scale(0.95);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Button_play:hover, .Button_historial:hover, .Button_rules:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
 
 .ContentMenu {
   display: flex;
