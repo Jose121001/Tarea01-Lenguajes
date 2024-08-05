@@ -1,82 +1,85 @@
+/* App.css */
+
 .Menu_app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .Menu_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #282c34;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .Menu_sidebar {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .Button_play,
-  .Button_historial,
-  .Button_rules {
-    color: white;
-    cursor: pointer;
-  }
-  
-  .MenuWallpaper {
-    flex-grow: 1;
-    text-align: center;
-  }
-  
-  .Title_name {
-    font-size: 2.5em;
-    color: #61dafb;
-    text-shadow: 1px 1px 2px #000;
-  }
-  
-  .Name_bar {
-    margin: 20px;
-    padding: 10px 20px;
-    background-color: #fff;
-    color: #000;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 1.2em;
-  }
-  
-  .ContentMenu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    flex-grow: 1;
-    background-color: #f0f0f0;
-  }
-  
-  .ContentMenu_play {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 60%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  }
-  
-  .Bar_questions {
-    width: 100%;
-    padding: 20px;
-    background-color: #ddd;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Menu_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #282c34;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.Menu_sidebar {
+  display: flex;
+  gap: 20px;
+}
+
+.Button_play,
+.Button_historial,
+.Button_rules {
+  color: white;
+  cursor: pointer;
+}
+
+.MenuWallpaper {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Title_name {
+  font-size: 2.5em;
+  color: #61dafb;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.Name_bar {
+  margin: 20px;
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 1.2em;
+}
+
+.ContentMenu {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  flex-grow: 1;
+  background-color: #f0f0f0;
+}
+
+.ContentMenu_play {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.Bar_questions {
+  width: 100%;
+  padding: 20px;
+  background-color: #ddd;
+  border: 1px solid #ccc;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
 .ResponseButton {
   width: 90%;  /* Ajusta el ancho para hacerlo más rectangular horizontalmente */
   margin: 10px 0; /* Ajusta el margen para mantener la separación */
@@ -95,103 +98,226 @@
   color: white;
   transform: scale(1.05);
 }
-  
-  
-  .Name_input {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .Name_input input {
-    padding: 10px;
-    margin-bottom: 10px;
-    font-size: 1em;
-  }
-  
-  .Name_input button {
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-  }
-  
 
-  .ResponseButton.correct {
-    background-color: green;
-  }
-  
-  .ResponseButton.incorrect {
-    background-color: red;
-  }
-  
+.Name_input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  .Looser_screen {
-    color: red;
-    font-size: 1.5em;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .Tie_screen {
-    color: orange;
-    font-size: 1.5em;
-    text-align: center;
-    padding: 20px;
-  }
-  
-  .Winner_screen {
-    color: green;
-    font-size: 1.5em;
-    text-align: center;
-    padding: 20px;
-  }
+.Name_input input {
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
 
-  .EndGameScreen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; /* Ajusta según tu necesidad */
-  }
-  
-  .EndGameMessage {
-    margin-bottom: 20px;
-    text-align: center;
-    font-size: 1.5em;
-  }
-  
-  
-  
-  .Reset_game, .Name_input button {
-    background-color: #007BFF;
-    color: white;
-    font-size: 1em;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  /* Agrega animación de hover a los botones de reset y jugar */
-.Reset_game:hover, .Name_input button:hover {
+.Name_input button {
+  padding: 10px 20px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.ResponseButton.correct {
+  background-color: green;
+}
+
+.ResponseButton.incorrect {
+  background-color: red;
+}
+
+.Looser_screen {
+  color: red;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 20px;
+}
+
+.Tie_screen {
+  color: orange;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 20px;
+}
+
+.Winner_screen {
+  color: green;
+  font-size: 1.5em;
+  text-align: center;
+  padding: 20px;
+}
+
+.EndGameScreen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ajusta según tu necesidad */
+}
+
+.EndGameMessage {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.Reset_game, .Name_input button {
   background-color: #007BFF;
+  color: white;
+  font-size: 1em;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+/* Agrega animación de hover a los botones de reset y jugar */
+.Reset_game:hover, .Name_input button:hover {
+  background-color: #0056b3;
   color: white;
   transform: scale(1.05);
 }
-
 
 .Error_message {
   color: red;
   margin-top: 10px;
 }
 
-.EndGameScreen {
-  text-align: center;
-  margin-top: 20px;
+.RulesContainer {
+  background-color: #e0f7fa; /* Fondo color beige claro */
+  padding: 20px;
+  margin: 20px auto; /* Centrando el contenedor */
+  border-radius: 15px; /* Borde más redondeado */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+  width: 80%;
+  max-width: 600px;
+  animation: fadeIn 1s ease-in-out;
 }
 
-.EndGameButton {
-  margin-top: 10px;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
-  
+
+.RulesContainer h2 {
+  margin-bottom: 20px;
+  color: #01579b; /* Azul oscuro */
+  font-size: 26px; /* Tamaño de fuente ligeramente mayor */
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra de texto */
+  animation: bounceIn 1s ease-in-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.Rules {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #2f4f4f; /* Verde oscuro */
+  padding: 15px;
+  background-color: #ffffff; /* Fondo color crema */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.Rules:hover {
+  transform: translateY(-5px);
+  background-color: #b2ebf2; /* Cambio de fondo en hover */
+}
+
+.Rules span {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.Rules p {
+  margin-bottom: 10px;
+}
+
+.Rules span, .Rules p {
+  animation: slideIn 1s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/*
+  Diseño del historial
+**/
+
+.HistorialContainer {
+  background-color: #e0f7fa; /* Fondo color azul claro */
+  padding: 20px;
+  margin: 20px auto; /* Centrando el contenedor */
+  border-radius: 15px; /* Borde más redondeado */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+  width: 80%;
+  max-width: 600px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.HistorialContainer h2 {
+  margin-bottom: 20px;
+  color: #01579b; /* Azul oscuro */
+  font-size: 26px; /* Tamaño de fuente ligeramente mayor */
+  text-align: center;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Sombra de texto */
+  animation: bounceIn 1s ease-in-out;
+}
+
+.HistorialList {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #2f4f4f; /* Verde oscuro */
+  padding: 15px;
+  background-color: #ffffff; /* Fondo blanco */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.HistorialList:hover {
+  transform: translateY(-5px);
+  background-color: #b2ebf2; /* Cambio de fondo en hover */
+}
+
+.HistorialList span {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.HistorialList p {
+  margin-bottom: 10px;
+}
+
+.HistorialList span, .HistorialList p {
+  animation: slideIn 1s ease-in-out;
+}

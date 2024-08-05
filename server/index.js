@@ -33,6 +33,7 @@ app.get('/random_question', (req, res) => {
     return;
   }
 
+
   db.query('SELECT * FROM table_preguntas ORDER BY RAND() LIMIT 1', (err, result) => {
     if (err) {
       console.log(err);
@@ -55,7 +56,6 @@ app.put('/reset_question_count', (req, res) => {
 });
 
 
-
 app.post('/add_to_historial', (req, res) => {
   const { nombre, correctas } = req.body;
   db.query('INSERT INTO table_historial (nombre, correctas) VALUES (?, ?)', [nombre, correctas], (err, result) => {
@@ -67,6 +67,20 @@ app.post('/add_to_historial', (req, res) => {
     }
   });
 });
+
+
+//Funcion encargada de mostrar la info de la DB del historial
+app.get('/show_historial', (req, res) => {
+  db.query('SELECT * FROM table_historial ORDER BY nombre', (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send('Error al obtener historial.');
+    } else {
+      res.send(result);
+    }
+  });
+});
+
 
 app.listen(3000, () => {
   console.log('Corriendo en el puerto 3000');

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Axios from "axios";
+import Axios from 'axios';
 import './App.css';
 
 function App() {
@@ -9,10 +9,13 @@ function App() {
   const [answerFeedback, setAnswerFeedback] = useState(Array(4).fill(''));
   const [correctCount, setCorrectCount] = useState(0);
   const [questionNumber, setQuestionNumber] = useState(0);
-  const [gameFinished, setGameFinished] = useState(false); // Nuevo estado para manejar la pantalla de finalización
-  const [errorMessage, setErrorMessage] = useState('');//Muestra error si lo hay
+  const [gameFinished, setGameFinished] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showHistorial, setShowHistorial] = useState(false);
+  const [showRules, setShowRules] = useState(false);
+  const [historial, setHistorial] = useState([]);
+  const [showGameSection, setShowGameSection] = useState(true);
 
-  // Función para registrar el nombre del usuario y obtener su ID
   const add = () => {
     Axios.post("http://localhost:3000/create", { nombre: playerName })
       .then((response) => {
@@ -20,14 +23,11 @@ function App() {
       });
   }; 
 
-  //Valida la entrada del nombre
   const isValidName = (name) => {
     const regex = /^[a-zA-Z\s]+$/;
     return regex.test(name) && name.trim().length > 0;
   };
-  
 
-  // Función para obtener una pregunta aleatoria
   const fetchQuestion = () => {
     Axios.get('http://localhost:3000/random_question')
       .then((response) => {
@@ -51,7 +51,6 @@ function App() {
       });
   };
 
-  // Función para mezclar las respuestas
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -59,16 +58,14 @@ function App() {
     }
   };
 
-  // Función para iniciar el juego
   const handleStartGame = () => {
     console.log("Juego iniciado");
     fetchQuestion();
     setShowGame(true);
     setGameFinished(false);
-     resetQuestionCount(); // Reinicia el contador al iniciar el juego
+    resetQuestionCount();
   };
 
-  // Función que combina iniciar juego y registrar nombre
   const handleButtonClick = () => {
     if (isValidName(playerName)) {
       add();
@@ -77,21 +74,18 @@ function App() {
       setErrorMessage('El nombre no debe contener números ni estar vacío.');
     }
   };
-  
 
-  // Función para manejar cambios en el input de nombre
   const handleChange = (e) => {
     const { value } = e.target;
     if (isValidName(value)) {
       setPlayerName(value);
-      setErrorMessage(''); // Limpia el mensaje de error si el nombre es válido
+      setErrorMessage('');
     } else {
       setPlayerName('');
       setErrorMessage('El nombre no debe contener números ni estar vacío.');
     }
   };
 
-  // Función para manejar clics en las respuestas
   const handleAnswerClick = (index, correct) => {
     const feedback = answerFeedback.slice();
     feedback[index] = correct ? 'correct' : 'incorrect';
@@ -102,7 +96,7 @@ function App() {
     }
 
     setTimeout(() => {
-      if (questionNumber < 9) { // Ajusta para permitir 10 preguntas
+      if (questionNumber < 9) {
         setQuestionNumber(questionNumber + 1);
         fetchQuestion();
       } else {
@@ -112,7 +106,6 @@ function App() {
     }, 250);
   };
 
-  // Función para guardar el historial
   const saveToHistorial = () => {
     Axios.post('http://localhost:3000/add_to_historial', {
       nombre: playerName,
@@ -126,19 +119,15 @@ function App() {
       });
   };
 
-  // Función para reiniciar el juego
   const resetGame = () => {
     setShowGame(false);
     setCorrectCount(0);
     setQuestionNumber(0);
     setCurrentQuestion(null);
     setGameFinished(false);
-    resetQuestionCount(); // Reinicia el contador al resetear el juego
+    resetQuestionCount();
   };
 
-
-
-  //Permite que se reinicie el contador de preguntas.
   const resetQuestionCount = () => {
     Axios.put('http://localhost:3000/reset_question_count')
       .then(() => {
@@ -148,36 +137,65 @@ function App() {
         console.error('Error al reiniciar el contador de preguntas:', error);
       });
   };
-  
-  // Renderiza el mensaje de finalización del juego basado en el número de respuestas correctas
-  // Renderiza el mensaje de finalización del juego basado en el número de respuestas correctas
-const renderEndGameMessage = () => {
-  if (correctCount < 5) {
-    return <p className="Looser_screen">Perdiste. Respuestas correctas: {correctCount}/10</p>;
-  } else if (correctCount === 5) {
-    return <p className="Tie_screen">Empate. Respuestas correctas: {correctCount}/10</p>;
-  } else {
-    return <p className="Winner_screen">¡Ganaste! Respuestas correctas: {correctCount}/10</p>;
-  }
-};
+
+  const renderEndGameMessage = () => {
+    if (correctCount < 5) {
+      return <p className="Looser_screen">Perdiste. Respuestas correctas: {correctCount}/10</p>;
+    } else if (correctCount === 5) {
+      return <p className="Tie_screen">Empate. Respuestas correctas: {correctCount}/10</p>;
+    } else {
+      return <p className="Winner_screen">¡Ganaste! Respuestas correctas: {correctCount}/10</p>;
+    }
+  };
+
+  const fetchHistorial = () => {
+    Axios.get('http://localhost:3000/show_historial')
+      .then((response) => {
+        console.log('Historial recibido:', response.data); // Log para depurar
+        setHistorial(response.data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener historial:', error);
+      });
+  };
+
+  const showHistorialInfo = () => {
+    setShowHistorial(true);
+    setShowRules(false);
+    setShowGameSection(false);
+    fetchHistorial();
+  };
+
+  const showRulesInfo = () => {
+    setShowRules(true);
+    setShowHistorial(false);
+    setShowGameSection(false);
+  };
+  //Reinicia el contador y refresca la pagina
+  const handlePlayButtonClick = () => {
+    resetQuestionCount();
+    setTimeout(() => {
+      window.location.reload();
+    }, 100); // Espera 100 ms antes de recargar la página para asegurar que la función se complete
+  };
+
   return (
     <div className="Menu_app">
       <header className="Menu_header">
         <nav className="Menu_sidebar">
-          <div className="Button_play" onClick={handleButtonClick}>
+        <div className="Button_play" onClick={handlePlayButtonClick}>
             Jugar
           </div>
-          <div className="Button_historial">Historial</div>
-          <div className="Button_rules">Reglas</div>
+          <div className="Button_historial" onClick={showHistorialInfo}>Historial</div>
+          <div className="Button_rules" onClick={showRulesInfo}>Reglas</div>
         </nav>
         <div className="MenuWallpaper">
           <h1 className="Title_name">Preguntadas</h1>
         </div>
       </header>
       <div className="ContentMenu">
-        {!showGame ? (
+        {(!showHistorial && !showRules) && (!showGame ? (
           <div className="Name_input">
-
             <input
               type="text"
               placeholder="Ingresa tu nombre"
@@ -189,13 +207,13 @@ const renderEndGameMessage = () => {
           </div>
         ) : gameFinished ? (
           <div className="EndGameScreen">
-  <div className="EndGameMessage">
-    {renderEndGameMessage()}
-  </div>
-  <div className="EndGameButtonContainer">
-    <button className="Reset_game" onClick={resetGame}>Jugar de nuevo</button>
-  </div>
-</div>
+            <div className="EndGameMessage">
+              {renderEndGameMessage()}
+            </div>
+            <div className="EndGameButtonContainer">
+              <button className="Reset_game" onClick={resetGame}>Jugar de nuevo</button>
+            </div>
+          </div>
         ) : (
           <>
             <div className="Name_bar">Jugador: {playerName}</div>
@@ -222,6 +240,30 @@ const renderEndGameMessage = () => {
               )}
             </div>
           </>
+        ))}
+        {showHistorial && (
+          <div className="HistorialContainer">
+            <h2>Historial</h2>
+            <ul className="HistorialList">
+              {historial.map((entry, index) => (
+                <li key={index}>
+                  <span className="player-name">{entry.nombre}</span>
+                  <span className="correct-count">{entry.correctas} respuestas correctas</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        {showRules && (
+          <div className="RulesContainer">
+            <h2>Reglas</h2>
+            <p className='Rules'>
+              - Para ganar debes responder mínimo 6/10 preguntas correctamente. <br />
+              - Si aciertas 5/10 empatarás. <br />
+              - Si aciertas más de 6 ganas. <br />
+              - Buena suerte usuario.
+            </p>
+          </div>
         )}
       </div>
     </div>
@@ -229,3 +271,4 @@ const renderEndGameMessage = () => {
 }
 
 export default App;
+
