@@ -2,7 +2,24 @@ import React, { useState, useEffect } from 'react';
 import Axios from 'axios';
 import './App.css';
 
+
+/**
+ * playerName: Almacena el nombre del jugador.
+ * showGame: Indica si el juego está visible o no.
+ * currentQuestion: Almacena la pregunta actual del juego.
+ * answerFeedback: Proporciona retroalimentación sobre las respuestas dadas (con un array inicializado con 4 cadenas vacías).
+ * correctCount: Cuenta el número de respuestas correctas.
+ * questionNumber: Lleva un seguimiento del número de la pregunta actual.
+ * gameFinished: Indica si el juego ha terminado.
+ * errorMessage: Almacena mensajes de error para mostrar al usuario.
+ * showHistorial: Indica si el historial del juego está visible o no.
+ * showRules: Indica si las reglas del juego están visibles o no.
+ * historial: Almacena el historial de preguntas y respuestas.
+ * showGameSection: Indica si la sección del juego está visible o no.
+ * 
+ */
 function App() {
+  //Estados para diferentes funciones
   const [playerName, setPlayerName] = useState('');
   const [showGame, setShowGame] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
@@ -15,7 +32,9 @@ function App() {
   const [showRules, setShowRules] = useState(false);
   const [historial, setHistorial] = useState([]);
   const [showGameSection, setShowGameSection] = useState(true);
+  //---------------------------Seccion de peteciones a DB-------------------------------------------------------------------------------------------
 
+  //Permite enviar el nombre del usuario a la DB
   const add = () => {
     Axios.post("http://localhost:3000/create", { nombre: playerName })
       .then((response) => {
@@ -23,11 +42,7 @@ function App() {
       });
   };
 
-  const isValidName = (name) => {
-    const regex = /^[a-zA-Z\s]+$/;
-    return regex.test(name) && name.trim().length > 0;
-  };
-
+  //Permite obtener las preguntas y respuestas de la BD.
   const fetchQuestion = () => {
     Axios.get('http://localhost:3000/random_question')
       .then((response) => {
@@ -50,7 +65,7 @@ function App() {
         console.error('ERROR: No se pudo obtener pregunta!', error);
       });
   };
-
+  //Estafuncion permite que las respuestas no aparezcan en un mismo lugar.
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -58,6 +73,53 @@ function App() {
     }
   };
 
+  //Permite que al finalizar el juego enviar el nombre y la cantidad de aciertos a la DB.
+  const saveToHistorial = () => {
+    Axios.post('http://localhost:3000/add_to_historial', {
+      nombre: playerName,
+      correctas: correctCount,
+    })
+      .then(() => {
+        console.log('Historial actualizado');
+      })
+      .catch(error => {
+        console.error('Error al actualizar el historial:', error);
+      });
+  };
+
+  //Permite que el contador de las preguntas se reinicie.
+  const resetQuestionCount = () => {
+    Axios.put('http://localhost:3000/reset_question_count')
+      .then(() => {
+        console.log('Contador de preguntas reiniciado');
+      })
+      .catch(error => {
+        console.error('Error al reiniciar el contador de preguntas:', error);
+      });
+  };
+
+//Permite obtener los datos de la BD. Exactamente de la table_historial, asi mostrariamos la info del historial
+  const fetchHistorial = () => {
+    Axios.get('http://localhost:3000/show_historial')
+      .then((response) => {
+        console.log('Historial recibido:', response.data); // Log para depurar
+        setHistorial(response.data);
+      })
+      .catch((error) => {
+        console.error('Error al obtener historial:', error);
+      });
+  };
+
+//-------------------------------------Funciones auxiliares.-------------------------------------------------------------------------------------
+
+
+  //Valida la entrada del nombre
+  const isValidName = (name) => {
+    const regex = /^[a-zA-Z\s]+$/;
+    return regex.test(name) && name.trim().length > 0;
+  };
+
+  //Funcion que tare las preguntas, muestra la zona de juego, y reinicia el contador de las preguntas.
   const handleStartGame = () => {
     console.log("Juego iniciado");
     fetchQuestion();
@@ -65,7 +127,7 @@ function App() {
     setGameFinished(false);
     resetQuestionCount();
   };
-
+//Valida si la entrada del nombre es valida si no lanza un error.
   const handleButtonClick = () => {
     if (isValidName(playerName)) {
       add();
@@ -74,7 +136,7 @@ function App() {
       setErrorMessage('El nombre no debe contener números ni estar vacío.');
     }
   };
-
+  //Esta funcion se encarga de borrar el texte_fild y dejarlo vacio si detecta un error.
   const handleChange = (e) => {
     const { value } = e.target;
     if (isValidName(value)) {
@@ -85,7 +147,7 @@ function App() {
       setErrorMessage('El nombre no debe contener números ni estar vacío.');
     }
   };
-
+  //Esta funcion es la que nos permite seleccionar una respuesta y revsisa si es la correcta o incorrecta
   const handleAnswerClick = (index, correct) => {
     const feedback = answerFeedback.slice();
     feedback[index] = correct ? 'correct' : 'incorrect';
@@ -105,20 +167,7 @@ function App() {
       }
     }, 250);
   };
-
-  const saveToHistorial = () => {
-    Axios.post('http://localhost:3000/add_to_historial', {
-      nombre: playerName,
-      correctas: correctCount,
-    })
-      .then(() => {
-        console.log('Historial actualizado');
-      })
-      .catch(error => {
-        console.error('Error al actualizar el historial:', error);
-      });
-  };
-
+//Reinicia el juego, su contador de preguntas y todo lo relacionado.
   const resetGame = () => {
     setShowGame(false);
     setCorrectCount(0);
@@ -128,16 +177,8 @@ function App() {
     resetQuestionCount();
   };
 
-  const resetQuestionCount = () => {
-    Axios.put('http://localhost:3000/reset_question_count')
-      .then(() => {
-        console.log('Contador de preguntas reiniciado');
-      })
-      .catch(error => {
-        console.error('Error al reiniciar el contador de preguntas:', error);
-      });
-  };
-
+ //Esta funcion mostrara una estructura que se llamara cuando llegas a responder 10 preguntas.
+ //Nos dice si perdimos, ganamos o empatamos.
   const renderEndGameMessage = () => {
     if (correctCount < 5) {
       return <p className="Looser_screen">Perdiste. Respuestas correctas: {correctCount}/10</p>;
@@ -148,24 +189,14 @@ function App() {
     }
   };
 
-  const fetchHistorial = () => {
-    Axios.get('http://localhost:3000/show_historial')
-      .then((response) => {
-        console.log('Historial recibido:', response.data); // Log para depurar
-        setHistorial(response.data);
-      })
-      .catch((error) => {
-        console.error('Error al obtener historial:', error);
-      });
-  };
-
+  //Funcion para mostrar la info del historial.
   const showHistorialInfo = () => {
     setShowHistorial(true);
     setShowRules(false);
     setShowGameSection(false);
     fetchHistorial();
   };
-
+  //Funcion para mostrar la info de las reglas.
   const showRulesInfo = () => {
     setShowRules(true);
     setShowHistorial(false);
