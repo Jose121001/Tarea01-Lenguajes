@@ -21,7 +21,7 @@ function App() {
       .then((response) => {
         alert("Usuario registrado app.js");
       });
-  }; 
+  };
 
   const isValidName = (name) => {
     const regex = /^[a-zA-Z\s]+$/;
@@ -183,7 +183,7 @@ function App() {
     <div className="Menu_app">
       <header className="Menu_header">
         <nav className="Menu_sidebar">
-        <div className="Button_play" onClick={handlePlayButtonClick}>
+          <div className="Button_play" onClick={handlePlayButtonClick}>
             Jugar
           </div>
           <div className="Button_historial" onClick={showHistorialInfo}>Historial</div>
@@ -271,4 +271,3 @@ function App() {
 }
 
 export default App;
-
